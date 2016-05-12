@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\IDT.CodeAnalysis.Rules.1.0.0.14\build\IDT.CodeAnalysis.Rules.props" Condition="Exists('..\packages\IDT.CodeAnalysis.Rules.1.0.0.14\build\IDT.CodeAnalysis.Rules.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,7 +38,27 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BackoffInterval.cs" />
+    <Compile Include="HandleExceptionAndRetryActionDecorator.cs" />
+    <Compile Include="IExceptionHandler.cs" />
+    <Compile Include="IInterval.cs" />
+    <Compile Include="ITaskAction.cs" />
+    <Compile Include="MefExportFactory.cs" />
+    <Compile Include="ParallelizeActionDecorator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetryOnExceptionActionDecorator.cs" />
+    <Compile Include="RetryUntilCanceledActionDecorator.cs" />
+    <Compile Include="ScopedAction.cs" />
+    <Compile Include="ScopedTaskActionServiceRunner.cs" />
+    <Compile Include="TaskAction.cs" />
+    <Compile Include="TaskActionServiceRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IDT.TaskActions.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,37 +66,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BackoffInterval.cs" />
-    <Compile Include="HandleExceptionAndRetryActionDecorator.cs" />
-    <Compile Include="IExceptionHandler.cs" />
-    <Compile Include="IInterval.cs" />
-    <Compile Include="ITaskAction.cs" />
-    <Compile Include="ParallelizeActionDecorator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RetryOnExceptionActionDecorator.cs" />
-    <Compile Include="RetryUntilCanceledActionDecorator.cs" />
-    <Compile Include="TaskActionServiceRunner.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IDT.TaskActions.nuspec" />
-    <None Include="packages.config" />
-    <None Include="Properties\IDTCustomRules.ruleset" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="Properties\IDTCustomDictionary.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\IDT.Build.OverrideAssemblyVersion.0.1.0.4\build\IDT.Build.OverrideAssemblyVersion.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IDT.Build.OverrideAssemblyVersion.0.1.0.4\build\IDT.Build.OverrideAssemblyVersion.targets'))" />
-    <Error Condition="!Exists('..\packages\IDT.CodeAnalysis.Rules.1.0.0.14\build\IDT.CodeAnalysis.Rules.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IDT.CodeAnalysis.Rules.1.0.0.14\build\IDT.CodeAnalysis.Rules.props'))" />
-    <Error Condition="!Exists('..\packages\IDT.Publish.NuGet.1.0.0.6\build\IDT.Publish.NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IDT.Publish.NuGet.1.0.0.6\build\IDT.Publish.NuGet.targets'))" />
-  </Target>
-  <Import Project="..\packages\IDT.Build.OverrideAssemblyVersion.0.1.0.4\build\IDT.Build.OverrideAssemblyVersion.targets" Condition="Exists('..\packages\IDT.Build.OverrideAssemblyVersion.0.1.0.4\build\IDT.Build.OverrideAssemblyVersion.targets')" />
-  <Import Project="..\packages\IDT.Publish.NuGet.1.0.0.6\build\IDT.Publish.NuGet.targets" Condition="Exists('..\packages\IDT.Publish.NuGet.1.0.0.6\build\IDT.Publish.NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
